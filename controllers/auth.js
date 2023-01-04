@@ -1,4 +1,4 @@
-import { loginSchema, registerSchema } from "../utils/authUtil";
+import { loginSchema, registerSchema } from "../utils/authUtil.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

@@ -5,6 +5,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import contactRouter from "./routes/contact.js";
+import referenceRouter from "./routes/reference.js";
 import { verifyToken } from "./middlewares/verifyToken.js";
 
 const app = express();
@@ -28,7 +29,7 @@ async function connect() {
 
 connect();
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send({
     message: "connected",
     _id: "test",
@@ -74,5 +75,6 @@ app.get("/products", verifyToken, (req, res) => {
 app.use("/auth", authRouter);
 app.use("/user", verifyToken, userRouter);
 app.use("/contact", verifyToken, contactRouter);
+app.use("/reference", verifyToken, referenceRouter);
 
 app.listen(PORT, () => console.log(`Server started on ${PORT}`));

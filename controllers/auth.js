@@ -2,6 +2,7 @@ import { loginSchema, registerSchema } from "../utils/authUtil.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { RESULT } from "../common/constants.js";
 
 export const handleRegister = (req, res) => {
   const { email, name, password, about, avatar } = req.body;
@@ -11,8 +12,8 @@ export const handleRegister = (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       ...error,
     });
   }
@@ -32,7 +33,7 @@ export const handleRegister = (req, res) => {
     .save()
     .then((user) =>
       res.status(200).json({
-        title: "User created",
+        result: RESULT.SUCCESS,
         message: "User created successfully",
         user,
       })
@@ -58,8 +59,8 @@ export const handleLogin = (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       // ...error,
     });
   }
@@ -69,7 +70,7 @@ export const handleLogin = (req, res) => {
       const { _id, name, email, about, avatar } = user;
       if (!user) {
         return res.status(402).json({
-          title: "Kullanıcı Bulunamadı",
+          result: RESULT.ERROR,
           message: "Lütfen bilgilerinizi kontrol ediniz",
         });
       }
@@ -77,7 +78,7 @@ export const handleLogin = (req, res) => {
       const isMatch = bcrypt.compareSync(password, user.password);
       if (!isMatch) {
         return res.status(400).json({
-          title: "Kullanıcı adı veya şifre hatalı",
+          result: RESULT.ERROR,
           message: "Lütfen kullanıcı adınızı ve şifrenizi kontrol ediniz",
         });
       }
@@ -104,8 +105,8 @@ export const handleLogin = (req, res) => {
     })
     .catch((error) =>
       res.status(400).json({
-        title: "Şuanda işleminizi gerçekleştiremiyoruz",
-        message: error.message,
+        result: RESULT.ERROR,
+        message: error.message || "Şuanda işleminizi gerçekleştiremiyoruz",
         // ...error,
       })
     );

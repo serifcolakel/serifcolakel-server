@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
 
-const skillSchema = new Schema({
+const SkillSchema = mongoose.Schema;
+
+const skillSchema = new SkillSchema({
   userId: {
     type: String,
     required: true,
@@ -9,10 +10,7 @@ const skillSchema = new Schema({
   name: {
     type: String,
     required: true,
-  },
-  description: {
-    type: String,
-    required: true,
+    unique: true,
   },
   level: {
     type: String,

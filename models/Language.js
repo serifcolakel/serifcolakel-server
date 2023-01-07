@@ -10,9 +10,10 @@ const languageSchema = new LanguageSchema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   level: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

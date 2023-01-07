@@ -2,10 +2,13 @@ import mongoose from "mongoose";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import contactRouter from "./routes/contact.js";
 import referenceRouter from "./routes/reference.js";
+import languageRouter from "./routes/language.js";
+
 import { verifyToken } from "./middlewares/verifyToken.js";
 
 const app = express();
@@ -76,5 +79,6 @@ app.use("/auth", authRouter);
 app.use("/user", verifyToken, userRouter);
 app.use("/contact", verifyToken, contactRouter);
 app.use("/reference", verifyToken, referenceRouter);
+app.use("/language", verifyToken, languageRouter);
 
 app.listen(PORT, () => console.log(`Server started on ${PORT}`));

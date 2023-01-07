@@ -1,3 +1,4 @@
+import { RESULT } from "../common/constants.js";
 import Reference from "../models/Reference.js";
 import {
   deleteReferenceSchema,
@@ -12,13 +13,13 @@ export const getAllReference = async (req, res) => {
 
   if (!reference) {
     return res.status(400).json({
-      title: "Cannot find",
+      result: RESULT.ERROR,
       message: "Reference not found",
     });
   }
 
   res.status(200).json({
-    title: "Reference found",
+    result: RESULT.SUCCESS,
     message: "Reference found successfully",
     reference,
   });
@@ -30,8 +31,8 @@ export const createReference = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -43,13 +44,13 @@ export const createReference = async (req, res) => {
   try {
     const savedReference = await reference.save();
     res.status(200).json({
-      title: "Reference added",
+      result: RESULT.SUCCESS,
       message: "Reference added successfully",
       reference: savedReference,
     });
   } catch (error) {
     res.status(400).json({
-      title: "Cannot add reference",
+      result: RESULT.ERROR,
       message: "Reference already exists",
       error,
     });
@@ -67,8 +68,8 @@ export const updateReference = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -81,13 +82,13 @@ export const updateReference = async (req, res) => {
     );
 
     res.status(200).json({
-      title: "Reference updated",
+      result: RESULT.SUCCESS,
       message: "Reference updated successfully",
       updatedReference,
     });
   } catch (error) {
     res.status(400).json({
-      title: "Cannot update",
+      result: RESULT.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -103,8 +104,8 @@ export const deleteReference = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -116,13 +117,13 @@ export const deleteReference = async (req, res) => {
 
   if (!deletedReference) {
     return res.status(400).json({
-      title: "Cannot delete",
+      result: RESULT.ERROR,
       message: "reference not found",
     });
   }
 
   res.status(200).json({
-    title: "reference deleted",
+    result: RESULT.SUCCESS,
     message: "reference deleted successfully",
     deletedReference,
   });

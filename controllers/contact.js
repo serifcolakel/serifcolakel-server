@@ -1,3 +1,4 @@
+import { RESULT } from "../common/constants.js";
 import Contact from "../models/Contact.js";
 import {
   contactSchema,
@@ -12,13 +13,13 @@ export const getAllContact = async (req, res) => {
 
   if (!contact) {
     return res.status(400).json({
-      title: "Cannot find",
+      result: RESULT.ERROR,
       message: "Contact not found",
     });
   }
 
   res.status(200).json({
-    title: "Contact found",
+    result: RESULT.SUCCESS,
     message: "Contact found successfully",
     contact,
   });
@@ -33,8 +34,8 @@ export const deleteContact = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -46,13 +47,13 @@ export const deleteContact = async (req, res) => {
 
   if (!deletedContact) {
     return res.status(400).json({
-      title: "Cannot delete",
+      result: RESULT.ERROR,
       message: "Contact not found",
     });
   }
 
   res.status(200).json({
-    title: "Contact deleted",
+    result: RESULT.SUCCESS,
     message: "Contact deleted successfully",
     contact: deletedContact,
   });
@@ -69,8 +70,8 @@ export const updateContact = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -83,13 +84,13 @@ export const updateContact = async (req, res) => {
     );
 
     res.status(200).json({
-      title: "Contact updated",
+      result: RESULT.SUCCESS,
       message: "Contact updated successfully",
       contact: updatedContact,
     });
   } catch (error) {
     res.status(400).json({
-      title: "Cannot update",
+      result: RESULT.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -102,8 +103,8 @@ export const createContact = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      title: "Validation Error",
-      message: error.details[0].message,
+      result: RESULT.VALIDATION_ERROR,
+      message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
   }
@@ -115,13 +116,13 @@ export const createContact = async (req, res) => {
   try {
     const savedContact = await contact.save();
     res.status(200).json({
-      title: "Contact added",
+      result: RESULT.SUCCESS,
       message: "Contact added successfully",
       contact: savedContact,
     });
   } catch (error) {
     res.status(400).json({
-      title: "Cannot add contact",
+      result: RESULT.ERROR,
       message: "Contact already exists",
       error,
     });

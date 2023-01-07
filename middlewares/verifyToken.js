@@ -1,11 +1,11 @@
-// handle verify token middleware here
 import jwt from "jsonwebtoken";
+import { RESULT } from "../common/constants";
 
 export const verifyToken = (req, res, next) => {
   const token = req.header("Authorization");
   if (!token)
     return res.status(401).send({
-      title: "Access Denied",
+      result: RESULT.ACCESS_DENIED,
       message: "No token provided",
     });
 
@@ -16,7 +16,7 @@ export const verifyToken = (req, res, next) => {
       (err, decoded) => {
         if (err) {
           return res.status(400).send({
-            title: "Invalid Token",
+            result: RESULT.INVALID_CREDENTIALS,
             message: "Token is expired or invalid",
             ...err,
           });
@@ -28,6 +28,9 @@ export const verifyToken = (req, res, next) => {
     req.body.userId = verified._id;
     next();
   } catch (error) {
-    res.status(400).send("Invalid Token");
+    res.status(400).send({
+      result: RESULT.ERROR,
+      message: 'Something went wrong',
+    });
   }
 };

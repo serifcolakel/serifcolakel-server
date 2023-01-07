@@ -47,7 +47,7 @@ export const handleRegister = (req, res) => {
       } else {
         errMsg = error.message;
       }
-      res.status(400).json({ statusText: "Bad Request", message: errMsg });
+      res.status(400).json({ result: RESULT.ERROR, message: errMsg });
     });
 };
 
@@ -102,6 +102,8 @@ export const handleLogin = (req, res) => {
         );
 
       return res.header("Authorization", accessToken).json({
+        result: RESULT.SUCCESS,
+        message: 'Login successful!',
         accessToken,
       });
     })

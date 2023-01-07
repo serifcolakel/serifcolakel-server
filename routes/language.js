@@ -1,5 +1,11 @@
 import express from "express";
-import { createLanguage, deleteLanguage, getAllLanguage, updateLanguage } from "../controllers/language.js";
+
+import {
+  createLanguage,
+  deleteLanguage,
+  getAllLanguage,
+  updateLanguage,
+} from "../controllers/language.js";
 
 const languageRouter = express.Router();
 

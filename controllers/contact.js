@@ -1,10 +1,11 @@
 import { RESULT } from "../common/constants.js";
-import Contact from "../models/Contact.js";
 import {
   contactSchema,
   deleteContactSchema,
   updateContactSchema,
 } from "../utils/contactUtil.js";
+
+import Contact from "../models/Contact.js";
 
 export const getAllContact = async (req, res) => {
   const { userId } = req.body;

@@ -1,6 +1,11 @@
 import { RESULT } from "../common/constants.js";
+import {
+  createSkillSchema,
+  deleteSkillSchema,
+  updateSkillSchema,
+} from "../utils/skillUtil.js";
+
 import Skill from "../models/Skill.js";
-import { createSkillSchema, deleteSkillSchema, updateSkillSchema } from "../utils/skillUtil.js";
 
 export const getSkills = async (req, res) => {
   const { userId } = req.body;

@@ -1,10 +1,11 @@
 import { RESULT } from "../common/constants.js";
-import Reference from "../models/Reference.js";
 import {
   deleteReferenceSchema,
   referenceSchema,
   updateReferenceSchema,
 } from "../utils/referenceUtil.js";
+
+import Reference from "../models/Reference.js";
 
 export const getAllReference = async (req, res) => {
   const { userId } = req.body;

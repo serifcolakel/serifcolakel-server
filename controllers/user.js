@@ -1,6 +1,8 @@
-import User from "../models/User.js";
-import { userSchema } from "../utils/userUtil.js";
 import bcrypt from "bcrypt";
+
+import { userSchema } from "../utils/userUtil.js";
+
+import User from "../models/User.js";
 
 export const updateUser = async (req, res) => {
   const { userId, ...rest } = req.body;

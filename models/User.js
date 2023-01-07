@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Joi from "joi";
+
 const UserSchema = mongoose.Schema;
 
 const userSchema = new UserSchema({

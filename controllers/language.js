@@ -1,13 +1,17 @@
 import { RESULT } from "../common/constants.js";
+import {
+  deleteLanguageSchema,
+  languageSchema,
+  updateLanguageSchema,
+} from "../utils/languageUtil.js";
+
 import Language from "../models/Language.js";
-import { deleteLanguageSchema, languageSchema, updateLanguageSchema } from "../utils/languageUtil.js";
 
 export const getAllLanguage = async (req, res) => {
   const { userId } = req.body;
 
   const languages = await Language.find({ userId });
 
-  console.log(languages)
   if (!languages) {
     return res.status(400).json({
       result: RESULT.ERROR,
@@ -26,7 +30,6 @@ export const createLanguage = async (req, res) => {
   const { error } = languageSchema.validate({
     ...req.body,
   });
-  console.log(error)
   if (error) {
     return res.status(400).json({
       result: RESULT.VALIDATION_ERROR,
@@ -78,6 +81,13 @@ export const updateLanguage = async (req, res) => {
       { ...rest },
       { new: true }
     );
+
+    if (!updatedLanguage) {
+      return res.status(400).json({
+        result: RESULT.ERROR,
+        message: "Language not found",
+      });
+    }
 
     res.status(200).json({
       result: RESULT.SUCCESS,

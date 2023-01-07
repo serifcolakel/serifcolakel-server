@@ -1,8 +1,10 @@
-import { loginSchema, registerSchema } from "../utils/authUtil.js";
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+import { loginSchema, registerSchema } from "../utils/authUtil.js";
 import { RESULT } from "../common/constants.js";
+
+import User from "../models/User.js";
 
 export const handleRegister = (req, res) => {
   const { email, name, password, about, avatar } = req.body;

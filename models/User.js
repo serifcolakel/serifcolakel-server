@@ -24,14 +24,14 @@ const userSchema = new UserSchema({
     type: String,
     required: true,
   },
-  avatar: {
+  image: {
     type: String,
-    default: "https://i.hizliresim.com/mn8lcf9.jpg",
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now,  
+    default: Date.now,
   },
-})
+});
 
 export default mongoose.model("user", userSchema);

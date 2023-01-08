@@ -16,12 +16,12 @@ export const userSchema = Joi.object({
   about: Joi.string().required().messages({
     "string.empty": "About is required",
   }),
-
   password: Joi.string().min(6).max(1024).required().messages({
     "string.empty": "Password is required",
     "string.min": "Password must be at least 6 characters",
     "string.max": "Password must be at most 1024 characters",
   }),
-
-  avatar: Joi.string().default("https://i.hizliresim.com/mn8lcf9.jpg"),
+  image: Joi.string().required().messages({
+    "string.empty": "Image is required",
+  }),
 });

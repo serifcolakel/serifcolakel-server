@@ -23,16 +23,17 @@ const experienceSchema = new ExperienceSchema({
     type: String,
     required: true,
   },
-  from: {
+  startDate: {
     type: String,
     required: true,
   },
-  to: {
+  endDate: {
     type: String,
+    required: true,
   },
-  current: {
-    type: Boolean,
-    default: false,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

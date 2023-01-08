@@ -19,16 +19,13 @@ const educationSchema = new EducationSchema({
     type: String,
     required: true,
   },
-  from: {
+  start: {
     type: String,
     required: true,
   },
-  to: {
+  end: {
     type: String,
-  },
-  current: {
-    type: Boolean,
-    default: false,
+    required: true,
   },
   gpas: {
     type: String,
@@ -38,4 +35,10 @@ const educationSchema = new EducationSchema({
     type: String, // Örgün veya İkinci Öğretim
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
+
+export default mongoose.model("education", educationSchema);

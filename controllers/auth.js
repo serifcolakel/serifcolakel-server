@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import fs from "fs";
 
 import { loginSchema, registerSchema } from "../utils/authUtil.js";
 import { RESULT } from "../common/constants.js";
@@ -7,12 +8,14 @@ import { RESULT } from "../common/constants.js";
 import User from "../models/User.js";
 
 export const handleRegister = (req, res) => {
-  const { email, name, password, about, avatar } = req.body;
+  const { email, name, password, about, image } = req.body;
 
   const { error } = registerSchema.validate({
     ...req.body,
   });
   if (error) {
+    fs.unlink(`public/${image}`);
+
     return res.status(400).json({
       result: RESULT.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
@@ -28,7 +31,7 @@ export const handleRegister = (req, res) => {
     name,
     password: hashedPassword,
     about,
-    avatar,
+    image,
   });
 
   newUser
@@ -41,12 +44,16 @@ export const handleRegister = (req, res) => {
       })
     )
     .catch((error) => {
+      fs.unlink(`public/${image}`);
+
       let errMsg;
+
       if (error.code == 11000 && error.keyPattern.email) {
         errMsg = Object.keys(error.keyValue)[0] + " already exists.";
       } else {
         errMsg = error.message;
       }
+
       res.status(400).json({ result: RESULT.ERROR, message: errMsg });
     });
 };
@@ -69,7 +76,7 @@ export const handleLogin = (req, res) => {
 
   User.findOne({ email })
     .then((user) => {
-      const { _id, name, email, about, avatar } = user;
+      const { _id, name, email, about, image } = user;
       if (!user) {
         return res.status(402).json({
           result: RESULT.ERROR,
@@ -93,7 +100,7 @@ export const handleLogin = (req, res) => {
             name,
             email,
             about,
-            avatar,
+            image,
           },
           process.env.SECRET_KEY,
           {
@@ -103,7 +110,7 @@ export const handleLogin = (req, res) => {
 
       return res.header("Authorization", accessToken).json({
         result: RESULT.SUCCESS,
-        message: 'Login successful!',
+        message: "Login successful!",
         accessToken,
       });
     })

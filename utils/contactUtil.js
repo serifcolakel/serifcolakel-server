@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const contactSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   name: Joi.string().min(6).max(255).required().messages({
     "string.empty": "Name is required",
@@ -23,10 +23,10 @@ export const contactSchema = Joi.object({
 
 export const updateContactSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   contactId: Joi.string().required().messages({
-    "string.empty": "Contact Id is required",
+    "string.empty": "contactId is required",
   }),
   name: Joi.string().min(6).max(255).required().messages({
     "string.empty": "Name is required",
@@ -47,9 +47,9 @@ export const updateContactSchema = Joi.object({
 
 export const deleteContactSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   contactId: Joi.string().required().messages({
-    "string.empty": "Contact Id is required",
+    "string.empty": "contactId is required",
   }),
 });

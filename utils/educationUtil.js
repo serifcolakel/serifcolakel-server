@@ -31,7 +31,7 @@ export const createEducationSchema = Joi.object({
 
 export const deleteEducationSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   educationId: Joi.string().required().messages({
     "string.empty": "educationId is required",
@@ -40,7 +40,7 @@ export const deleteEducationSchema = Joi.object({
 
 export const updateEducationSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   educationId: Joi.string().required().messages({
     "string.empty": "educationId is required",

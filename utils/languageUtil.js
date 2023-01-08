@@ -17,10 +17,10 @@ export const languageSchema = Joi.object({
 
 export const deleteLanguageSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   languageId: Joi.string().required().messages({
-    "string.empty": "Language Id is required",
+    "string.empty": "languageId is required",
   }),
 });
 
@@ -38,6 +38,6 @@ export const updateLanguageSchema = Joi.object({
     "number.max": "level must be less than or equal to 5",
   }),
   languageId: Joi.string().required().messages({
-    "string.empty": "Language Id is required",
+    "string.empty": "languageId is required",
   }),
 });

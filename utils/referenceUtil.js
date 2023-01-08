@@ -17,19 +17,19 @@ export const referenceSchema = Joi.object({
 
 export const deleteReferenceSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   referenceId: Joi.string().required().messages({
-    "string.empty": "Contact Id is required",
+    "string.empty": "referenceId Id is required",
   }),
 });
 
 export const updateReferenceSchema = Joi.object({
   userId: Joi.string().required().messages({
-    "string.empty": "User Id is required",
+    "string.empty": "userId is required",
   }),
   referenceId: Joi.string().required().messages({
-    "string.empty": "Contact Id is required",
+    "string.empty": "referenceId Id is required",
   }),
   name: Joi.string().required().messages({
     "string.empty": "name is required",

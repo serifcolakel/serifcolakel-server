@@ -15,6 +15,7 @@ import contactRouter from "./routes/contact.js";
 import referenceRouter from "./routes/reference.js";
 import languageRouter from "./routes/language.js";
 import skillRouter from "./routes/skill.js";
+import educationRouter from "./routes/education.js";
 
 import { verifyToken } from "./middlewares/verifyToken.js";
 
@@ -37,13 +38,18 @@ const MONGO_DB_URL = process.env.MONGO_DB_URL;
 const PORT = process.env.PORT;
 
 // Routes
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use(
+  "/assets",
+  verifyToken,
+  express.static(path.join(__dirname, "public/assets"))
+);
 app.use("/auth", authRouter);
 app.use("/user", verifyToken, userRouter);
 app.use("/contact", verifyToken, contactRouter);
 app.use("/reference", verifyToken, referenceRouter);
 app.use("/language", verifyToken, languageRouter);
 app.use("/skill", verifyToken, skillRouter);
+app.use("/education", verifyToken, educationRouter);
 
 // Connect to DB and start server
 mongoose

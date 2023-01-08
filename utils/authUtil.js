@@ -23,7 +23,9 @@ export const registerSchema = Joi.object({
     "string.max": "Password must be at most 1024 characters",
   }),
 
-  avatar: Joi.string().default("https://i.hizliresim.com/mn8lcf9.jpg"),
+  image: Joi.string().required().messages({
+    "string.empty": "Image is required",
+  }),
 });
 
 export const loginSchema = Joi.object({

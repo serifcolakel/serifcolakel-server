@@ -17,6 +17,7 @@ import languageRouter from "./routes/language.js";
 import skillRouter from "./routes/skill.js";
 import educationRouter from "./routes/education.js";
 import experienceRouter from "./routes/experience.js";
+import projectRouter from "./routes/project.js";
 
 import { verifyToken } from "./middlewares/verifyToken.js";
 
@@ -52,6 +53,7 @@ app.use("/language", verifyToken, languageRouter);
 app.use("/skill", verifyToken, skillRouter);
 app.use("/education", verifyToken, educationRouter);
 app.use("/experience", verifyToken, experienceRouter);
+app.use("/project", verifyToken, projectRouter);
 
 // Connect to DB and start server
 mongoose

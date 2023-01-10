@@ -6,10 +6,10 @@ import { handleImagePath } from "../utils/assetsUtil.js";
 
 export const handleUploadAsset = (req, res, next) => {
   uploadSingleImage(req, res, function (err) {
-    if (err) {
+    if (err || !req.file) {
       return res.status(400).send({
         result: RESULT.ERROR,
-        message: err.message,
+        message: err?.message || "Please upload an image",
       });
     }
     req.body.image = handleImagePath(req.file.path);

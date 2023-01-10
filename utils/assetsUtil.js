@@ -3,8 +3,13 @@ export const handleImagePath = (path) => {
 };
 
 export const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
+  console.log({ file });
+  if (file) {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
   } else {
     cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
   }

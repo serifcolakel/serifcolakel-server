@@ -1,3 +1,4 @@
+import fs from "fs";
 import { RESULT } from "../common/constants.js";
 
 import Project from "../models/Project.js";
@@ -24,19 +25,30 @@ export const getAllProject = async (req, res) => {
     result: RESULT.SUCCESS,
     message: "Project found successfully",
     projects,
+    count: projects.length,
   });
 };
 
 export const createProject = async (req, res) => {
-  console.log("req.body", req.body, req.body.files);
-
   const { error } = createProjectSchema.validate({
     ...req.body,
   });
   if (error) {
+    if (fs.existsSync(req.body.image)) {
+      fs.unlinkSync(req.body.image);
+    }
     return res.status(400).json({
       result: RESULT.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
+      //...error,
+    });
+  } else if (
+    !req.body.image.includes("http") &&
+    !fs.existsSync(req.body.image)
+  ) {
+    return res.status(400).json({
+      result: RESULT.VALIDATION_ERROR,
+      message: "Image not found",
       //...error,
     });
   }
@@ -53,6 +65,9 @@ export const createProject = async (req, res) => {
       savedProject,
     });
   } catch (error) {
+    if (fs.existsSync(req.body.image)) {
+      fs.unlinkSync(req.body.image);
+    }
     res.status(400).json({
       result: RESULT.ERROR,
       message: "Project already exists",
@@ -79,7 +94,7 @@ export const updateProject = async (req, res) => {
   }
 
   try {
-    const updatedReference = await Project.findOneAndUpdate(
+    const updatedProject = await Project.findOneAndUpdate(
       { userId, _id: projectId },
       { ...rest },
       { new: true }
@@ -87,8 +102,8 @@ export const updateProject = async (req, res) => {
 
     res.status(200).json({
       result: RESULT.SUCCESS,
-      message: "Experience updated successfully",
-      updatedReference,
+      message: "Project updated successfully",
+      updatedProject,
     });
   } catch (error) {
     res.status(400).json({
@@ -114,21 +129,25 @@ export const deleteProject = async (req, res) => {
     });
   }
 
-  const deletedExperience = await Project.findOneAndDelete({
+  const deletedProject = await Project.findOneAndDelete({
     userId,
     _id: projectId,
   });
 
-  if (!deletedExperience) {
+  if (!deletedProject) {
     return res.status(400).json({
       result: RESULT.ERROR,
-      message: "Experience not found",
+      message: "Project not found",
     });
+  }
+
+  if (fs.existsSync(deletedProject.image)) {
+    fs.unlinkSync(deletedProject.image);
   }
 
   res.status(200).json({
     result: RESULT.SUCCESS,
-    message: "Experience deleted successfully",
-    deletedExperience,
+    message: "Project deleted successfully",
+    deletedProject,
   });
 };

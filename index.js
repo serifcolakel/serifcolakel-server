@@ -18,6 +18,7 @@ import skillRouter from "./routes/skill.js";
 import educationRouter from "./routes/education.js";
 import experienceRouter from "./routes/experience.js";
 import projectRouter from "./routes/project.js";
+import uploadRouter from "./routes/upload.js";
 
 import { verifyToken } from "./middlewares/verifyToken.js";
 
@@ -41,7 +42,7 @@ const PORT = process.env.PORT;
 
 // Routes
 app.use(
-  "/assets",
+  "/public/assets",
   verifyToken,
   express.static(path.join(__dirname, "public/assets"))
 );
@@ -54,6 +55,7 @@ app.use("/skill", verifyToken, skillRouter);
 app.use("/education", verifyToken, educationRouter);
 app.use("/experience", verifyToken, experienceRouter);
 app.use("/project", verifyToken, projectRouter);
+app.use("/upload", verifyToken, uploadRouter);
 
 // Connect to DB and start server
 mongoose

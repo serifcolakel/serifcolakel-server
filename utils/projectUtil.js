@@ -13,12 +13,13 @@ export const createProjectSchema = Joi.object({
   link: Joi.string().uri().required().messages({
     "string.empty": "link is required",
   }),
-  image: Joi.string().uri().required().messages({
+  image: Joi.string().required().messages({
     "string.empty": "image is required",
   }),
-  techStackImage: Joi.array().required().messages({
+  techStackImage: Joi.array().messages({
     "string.empty": "techStackImage is required",
-  }),
+    
+  }).default([]),
 });
 
 export const deleteProjectSchema = Joi.object({
@@ -46,10 +47,10 @@ export const updateProjectSchema = Joi.object({
   link: Joi.string().uri().required().messages({
     "string.empty": "link is required",
   }),
-  image: Joi.string().uri().required().messages({
+  image: Joi.string().required().messages({
     "string.empty": "image is required",
   }),
-  techStackImage: Joi.array().required().messages({
+  techStackImage: Joi.array().messages({
     "string.empty": "techStackImage is required",
-  }),
+  }).default([]),
 });

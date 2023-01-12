@@ -24,7 +24,7 @@ const projectSchema = new ProjectSchema({
     required: true,
   },
   techStackImage: {
-    type: Array,
+    type: [String],
     default: [],
   },
   createdAt: {

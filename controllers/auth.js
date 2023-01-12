@@ -14,7 +14,9 @@ export const handleRegister = (req, res) => {
     ...req.body,
   });
   if (error) {
-    fs.unlinkSync(`public${image}`);
+    if (fs.existsSync(image)) {
+      fs.unlinkSync(image);
+    }
 
     return res.status(400).json({
       result: RESULT.VALIDATION_ERROR,
@@ -44,7 +46,9 @@ export const handleRegister = (req, res) => {
       })
     )
     .catch((error) => {
-      fs.unlinkSync(`public${image}`);
+      if (fs.existsSync(image)) {
+        fs.unlinkSync(image);
+      }
 
       let errMsg;
 

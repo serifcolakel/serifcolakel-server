@@ -19,6 +19,7 @@ import educationRouter from "./routes/education.js";
 import experienceRouter from "./routes/experience.js";
 import projectRouter from "./routes/project.js";
 import uploadRouter from "./routes/upload.js";
+import emailRouter from "./routes/email.js";
 
 import { verifyToken } from "./middlewares/verifyToken.js";
 
@@ -56,6 +57,7 @@ app.use("/education", verifyToken, educationRouter);
 app.use("/experience", verifyToken, experienceRouter);
 app.use("/project", verifyToken, projectRouter);
 app.use("/upload", verifyToken, uploadRouter);
+app.use("/email", emailRouter);
 
 // Connect to DB and start server
 mongoose

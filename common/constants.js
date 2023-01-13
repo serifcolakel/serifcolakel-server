@@ -1,4 +1,4 @@
-export const RESULT = {
+export const STATUS = {
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
   WARNING: "WARNING",

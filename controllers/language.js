@@ -1,4 +1,4 @@
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 import {
   deleteLanguageSchema,
   languageSchema,
@@ -14,13 +14,13 @@ export const getAllLanguage = async (req, res) => {
 
   if (!languages) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "languages not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: `${languages.length} languages found`,
     languages,
   });
@@ -32,7 +32,7 @@ export const createLanguage = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -45,13 +45,13 @@ export const createLanguage = async (req, res) => {
   try {
     const savedLanguage = await language.save();
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Language added successfully",
       savedLanguage,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Language already exists",
       error,
     });
@@ -69,7 +69,7 @@ export const updateLanguage = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -84,19 +84,19 @@ export const updateLanguage = async (req, res) => {
 
     if (!updatedLanguage) {
       return res.status(400).json({
-        result: RESULT.ERROR,
+        status: STATUS.ERROR,
         message: "Language not found",
       });
     }
 
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Language updated successfully",
       updatedLanguage,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -112,7 +112,7 @@ export const deleteLanguage = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -125,13 +125,13 @@ export const deleteLanguage = async (req, res) => {
 
   if (!deletedLanguage) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Language not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Language deleted successfully",
     deletedLanguage,
   });

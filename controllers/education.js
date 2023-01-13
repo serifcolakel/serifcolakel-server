@@ -1,4 +1,4 @@
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 import Education from "../models/Education.js";
 import {
   createEducationSchema,
@@ -13,13 +13,13 @@ export const getEducations = async (req, res) => {
 
   if (!educations) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "educations not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: `${educations.length} educations found`,
     educations,
   });
@@ -31,7 +31,7 @@ export const createEducation = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -44,13 +44,13 @@ export const createEducation = async (req, res) => {
   try {
     const savedEducation = await education.save();
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Education added successfully",
       savedEducation,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Education already exists",
       error,
     });
@@ -68,7 +68,7 @@ export const updateEducation = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -83,19 +83,19 @@ export const updateEducation = async (req, res) => {
 
     if (!updatedEducation) {
       return res.status(400).json({
-        result: RESULT.ERROR,
+        status: STATUS.ERROR,
         message: "Education not found",
       });
     }
 
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Education updated successfully",
       updatedEducation,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -111,7 +111,7 @@ export const deleteEducation = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -124,13 +124,13 @@ export const deleteEducation = async (req, res) => {
 
   if (!deletedEducation) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Education not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Education deleted successfully",
     deletedEducation,
   });

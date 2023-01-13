@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import fs from "fs";
 
 import { loginSchema, registerSchema } from "../utils/authUtil.js";
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 
 import User from "../models/User.js";
 
@@ -19,7 +19,7 @@ export const handleRegister = (req, res) => {
     }
 
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       ...error,
     });
@@ -40,7 +40,7 @@ export const handleRegister = (req, res) => {
     .save()
     .then((user) =>
       res.status(200).json({
-        result: RESULT.SUCCESS,
+        status: STATUS.SUCCESS,
         message: "User created successfully",
         user,
       })
@@ -58,7 +58,7 @@ export const handleRegister = (req, res) => {
         errMsg = error.message;
       }
 
-      res.status(400).json({ result: RESULT.ERROR, message: errMsg });
+      res.status(400).json({ status: STATUS.ERROR, message: errMsg });
     });
 };
 
@@ -72,7 +72,7 @@ export const handleLogin = (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       // ...error,
     });
@@ -83,7 +83,7 @@ export const handleLogin = (req, res) => {
       const { _id, name, email, about, image } = user;
       if (!user) {
         return res.status(402).json({
-          result: RESULT.ERROR,
+          status: STATUS.ERROR,
           message: "Lütfen bilgilerinizi kontrol ediniz",
         });
       }
@@ -91,7 +91,7 @@ export const handleLogin = (req, res) => {
       const isMatch = bcrypt.compareSync(password, user.password);
       if (!isMatch) {
         return res.status(400).json({
-          result: RESULT.ERROR,
+          status: STATUS.ERROR,
           message: "Lütfen kullanıcı adınızı ve şifrenizi kontrol ediniz",
         });
       }
@@ -113,14 +113,14 @@ export const handleLogin = (req, res) => {
         );
 
       return res.header("Authorization", accessToken).json({
-        result: RESULT.SUCCESS,
+        status: STATUS.SUCCESS,
         message: "Login successful!",
         accessToken,
       });
     })
     .catch((error) =>
       res.status(400).json({
-        result: RESULT.ERROR,
+        status: STATUS.ERROR,
         message: error.message || "Şuanda işleminizi gerçekleştiremiyoruz",
         // ...error,
       })

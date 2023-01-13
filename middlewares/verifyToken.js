@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 
 export const verifyToken = (req, res, next) => {
   const token = req.header("Authorization");
   if (!token)
     return res.status(401).send({
-      result: RESULT.ACCESS_DENIED,
+      status: STATUS.ACCESS_DENIED,
       message: "No token provided",
     });
 
@@ -17,7 +17,7 @@ export const verifyToken = (req, res, next) => {
       (err, decoded) => {
         if (err) {
           return res.status(400).send({
-            result: RESULT.INVALID_CREDENTIALS,
+            status: STATUS.INVALID_CREDENTIALS,
             message: "Token is expired or invalid",
             ...err,
           });
@@ -30,8 +30,8 @@ export const verifyToken = (req, res, next) => {
     next();
   } catch (error) {
     res.status(400).send({
-      result: RESULT.ERROR,
-      message: 'Something went wrong',
+      status: STATUS.ERROR,
+      message: "Something went wrong",
     });
   }
 };

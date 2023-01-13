@@ -1,5 +1,5 @@
 import fs from "fs";
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 
 import Project from "../models/Project.js";
 
@@ -16,13 +16,13 @@ export const getAllProject = async (req, res) => {
 
   if (!projects) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Project not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Project found successfully",
     projects,
     count: projects.length,
@@ -38,7 +38,7 @@ export const createProject = async (req, res) => {
       fs.unlinkSync(req.body.image);
     }
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -47,7 +47,7 @@ export const createProject = async (req, res) => {
     !fs.existsSync(req.body.image)
   ) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: "Image not found",
       //...error,
     });
@@ -60,7 +60,7 @@ export const createProject = async (req, res) => {
   try {
     const savedProject = await project.save();
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Project added successfully",
       savedProject,
     });
@@ -69,7 +69,7 @@ export const createProject = async (req, res) => {
       fs.unlinkSync(req.body.image);
     }
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Project already exists",
       error,
     });
@@ -87,7 +87,7 @@ export const updateProject = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -101,13 +101,13 @@ export const updateProject = async (req, res) => {
     );
 
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Project updated successfully",
       updatedProject,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -123,7 +123,7 @@ export const deleteProject = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -136,7 +136,7 @@ export const deleteProject = async (req, res) => {
 
   if (!deletedProject) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Project not found",
     });
   }
@@ -146,7 +146,7 @@ export const deleteProject = async (req, res) => {
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Project deleted successfully",
     deletedProject,
   });

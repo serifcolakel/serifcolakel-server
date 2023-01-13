@@ -1,4 +1,4 @@
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 import {
   createExperienceSchema,
   deleteExperienceSchema,
@@ -14,13 +14,13 @@ export const getExperiences = async (req, res) => {
 
   if (!experiences) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Experience not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: `${experiences.length} Experiences found`,
     experiences,
   });
@@ -32,7 +32,7 @@ export const createExperience = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -45,13 +45,13 @@ export const createExperience = async (req, res) => {
   try {
     const savedExperience = await experience.save();
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Experience added successfully",
       savedExperience,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Experience already exists",
       error,
     });
@@ -69,7 +69,7 @@ export const updateExperience = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -83,13 +83,13 @@ export const updateExperience = async (req, res) => {
     );
 
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Experience updated successfully",
       updatedExperience,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -105,7 +105,7 @@ export const deleteExperience = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -118,13 +118,13 @@ export const deleteExperience = async (req, res) => {
 
   if (!deletedExperience) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Experience not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Experience deleted successfully",
     deletedExperience,
   });

@@ -12,7 +12,7 @@ export const updateUser = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: "Validation Error",
+      status: "Validation Error",
       message: error.details[0].message.replace(/"/g, ""),
       ...error,
     });
@@ -29,13 +29,13 @@ export const updateUser = async (req, res) => {
 
   if (!updatedUser) {
     return res.status(400).json({
-      result: "Cannot update",
+      status: "Cannot update",
       message: "User not found",
     });
   }
 
   res.send({
-    result: "User updated",
+    status: "User updated",
     message: "User updated successfully",
     updatedUser,
   });
@@ -48,13 +48,13 @@ export const deleteUser = async (req, res) => {
 
   if (!deletedUser) {
     return res.status(400).json({
-      result: "Cannot delete",
+      status: "Cannot delete",
       message: "User not found",
     });
   }
 
   res.send({
-    result: "User deleted",
+    status: "User deleted",
     message: "User deleted successfully",
     deletedUser,
   });

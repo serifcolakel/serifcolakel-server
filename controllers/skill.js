@@ -1,4 +1,4 @@
-import { RESULT } from "../common/constants.js";
+import { STATUS } from "../common/constants.js";
 import {
   createSkillSchema,
   deleteSkillSchema,
@@ -14,13 +14,13 @@ export const getSkills = async (req, res) => {
 
   if (!skills) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "skills not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: `${skills.length} skills found`,
     skills,
   });
@@ -32,7 +32,7 @@ export const createSkill = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -45,13 +45,13 @@ export const createSkill = async (req, res) => {
   try {
     const savedSkill = await skill.save();
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Skill added successfully",
       savedSkill,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Skill already exists",
       error,
     });
@@ -69,7 +69,7 @@ export const updateSkill = async (req, res) => {
 
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -84,19 +84,19 @@ export const updateSkill = async (req, res) => {
 
     if (!updatedSkill) {
       return res.status(400).json({
-        result: RESULT.ERROR,
+        status: STATUS.ERROR,
         message: "Skill not found",
       });
     }
 
     res.status(200).json({
-      result: RESULT.SUCCESS,
+      status: STATUS.SUCCESS,
       message: "Skill updated successfully",
       updatedSkill,
     });
   } catch (error) {
     res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: `${error.path} parameter is invalid`,
       //error,
     });
@@ -112,7 +112,7 @@ export const deleteSkill = async (req, res) => {
   });
   if (error) {
     return res.status(400).json({
-      result: RESULT.VALIDATION_ERROR,
+      status: STATUS.VALIDATION_ERROR,
       message: error.details[0].message.replace(/"/g, ""),
       //...error,
     });
@@ -125,13 +125,13 @@ export const deleteSkill = async (req, res) => {
 
   if (!deletedSkill) {
     return res.status(400).json({
-      result: RESULT.ERROR,
+      status: STATUS.ERROR,
       message: "Skill not found",
     });
   }
 
   res.status(200).json({
-    result: RESULT.SUCCESS,
+    status: STATUS.SUCCESS,
     message: "Skill deleted successfully",
     deletedSkill,
   });
